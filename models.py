@@ -33,10 +33,5 @@ class Contact(ndb.Model):
     phone = ndb.StringProperty(indexed=True)
     note = ndb.TextProperty(indexed=True)
 
-    def put(self):
-        res = super(Contact, self).put()
-        return res
-
     def browse(self, urlsafe):
         return ndb.Key(urlsafe=urlsafe).get()
-

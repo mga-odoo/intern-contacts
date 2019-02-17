@@ -35,15 +35,3 @@ app.register_blueprint(group.app)
 def index(group_key=None):
     context = login()
     return render_template('index.html', context=context)
-
-    # context = login()
-    # group = Group.query(Group.user == users.get_current_user()).order(Group.name)
-    # groups = group.fetch()
-
-    # contact = Contact.query(Contact.user == users.get_current_user()).order(Contact.name)
-    # if group_key:
-    #     contact = Contact.query(Contact.user == users.get_current_user() 
-    #             and Contact.group == ndb.Key(urlsafe=group_key)).order(Contact.name)
-    # contacts = contact.fetch()
-
-    # return render_template('index.html',  groups=groups, contacts=contacts,vals=context)

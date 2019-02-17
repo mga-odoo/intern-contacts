@@ -15,6 +15,11 @@ from google.appengine.api import users
 
 app = Blueprint('contacts', __name__, template_folder='templates')
 
+def group_list():
+    group = Group.query(Group.user == users.get_current_user()).order(Group.name)
+    groups = group.fetch()
+    return groups
+
 @app.route('/contacts')
 @app.route('/contacts/group/<group_key>')
 def contacts_list(group_key=None):
@@ -22,16 +27,13 @@ def contacts_list(group_key=None):
     Params: group_key is used to filter the contacts by groups'''
 
     context = login()
-    group = Group.query(Group.user == users.get_current_user()).order(Group.name)
-    groups = group.fetch()
-
     contact = Contact.query(Contact.user == users.get_current_user()).order(Contact.name)
     if group_key:
         contact = Contact.query(Contact.user == users.get_current_user() 
                 and Contact.group == ndb.Key(urlsafe=group_key)).order(Contact.name)
     contacts = contact.fetch()
 
-    return render_template('index.html',  groups=groups, contacts=contacts, context=context)
+    return render_template('index.html',  groups=group_list(), contacts=contacts, context=context)
 
 @app.route('/contacts/new')
 @app.route('/contacts/edit/<contact_edit>')
@@ -40,15 +42,12 @@ def contact_new(contact_edit=None):
     Params: contact_edit holds the contation information when contact is in edit mode'''
 
     context = login()
-    group = Group.query(Group.user == users.get_current_user()).order(Group.name)
-    groups = group.fetch()
     
     contact = False
     if contact_edit:
-        contact = Contact()
-        contact = contact.browse(contact_edit)
-    
-    return render_template('contact.html', groups=groups, contact=contact, context=context)
+        contact = ndb.Key(urlsafe=contact_edit).get()
+
+    return render_template('contact.html', groups=group_list(), contact=contact, context=context)
 
 @app.route('/contacts/save', methods=['POST'])
 def contact_save():

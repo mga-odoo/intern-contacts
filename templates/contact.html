@@ -12,7 +12,9 @@
       <form action="/contacts/save" method="post" encrypt="multipart/form-data">
 
         <div class="form-group" style="display: none">
-          <input type="text" hidden class="form-control" name="contact_edit" id="contact_edit" value="{{ contact and contact.key.urlsafe() }}">
+          {% if contact %}
+            <input type="text" hidden class="form-control" name="contact_edit" id="contact_edit" value="{{ contact and contact.key.urlsafe() }}">
+          {% endif %}
         </div>
 
         <div class="form-group">
@@ -31,22 +33,22 @@
 
         <div class="form-group">
           <label for="contact_name"><strong>Contact Name</strong></label>
-          <input type="text" class="form-control" name="contact_name" id="contact_name" placeholder="John Deo" value="{{ contact and contact.name }}">
+          <input type="text" class="form-control" name="contact_name" id="contact_name" placeholder="John Deo" value="{{ contact.name }}">
         </div>
 
         <div class="form-group">
           <label for="contact_email"><strong>Email Address</strong></label>
-          <input type="email" class="form-control" name="contact_email" id="contact_email" placeholder="johndeo@gmail.com" value="{{ contact and contact.email }}">
+          <input type="email" class="form-control" name="contact_email" id="contact_email" placeholder="johndeo@gmail.com" value="{{ contact.email }}">
         </div>
 
         <div class="form-group">
           <label for="contact_phone"><strong>Contact</strong></label>
-          <input type="text" class="form-control" name="contact_phone" id="contact_phone" placeholder="+1-(123)-456789" value="{{ contact and contact.phone }}">
+          <input type="text" class="form-control" name="contact_phone" id="contact_phone" placeholder="+1-(123)-456789" value="{{ contact.phone }}">
         </div>
 
         <div class="form-group">
           <label for="contact_note"><strong>Details</strong></label>
-          <textarea class="form-control" name="contact_note" id="contact_note" rows="3">{{ contact and contact.note }}</textarea>
+          <textarea class="form-control" name="contact_note" id="contact_note" rows="3">{{ contact.note }}</textarea>
         </div>
 
         <button type="submit" class="btn btn-primary">Create Contact</button>
