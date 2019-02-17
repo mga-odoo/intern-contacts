@@ -53,10 +53,9 @@ def contact_new(contact_edit=None):
 def contact_save():
     '''Create or update the contact in database and redirects to the contact page'''
     contact = Contact()
-    #FIX: should not use eval
-    if eval(request.form.get('contact_edit')):
-        contact = contact.browse(request.form.get('contact_edit'))
-
+    if request.form.get('contact_edit'):
+        contact = ndb.Key(urlsafe=request.form.get('contact_edit')).get()
+       
     group = Group()
     if request.form.get('contact_group'):
         group = group.browse(request.form.get('contact_group'))
