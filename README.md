@@ -1,2 +1,2 @@
-# intern-contacts
-Contact application - Intern projects
+# Contact application
+Contact application using Google App Engine
