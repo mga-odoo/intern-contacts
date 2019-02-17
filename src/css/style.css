@@ -1,0 +1,33 @@
+a{ 
+  color: inherit;
+  text-decoration: inherit;
+}
+a:hover{ 
+  color: inherit;
+  text-decoration: inherit;
+}
+.nav a{ 
+  color: inherit;
+  text-decoration: inherit;
+}
+
+.text-overflow {
+  white-space: nowrap; 
+  width: 100%; 
+  overflow: hidden;
+  text-overflow: ellipsis; 
+}
+
+.avatar {
+  max-height: 80px;
+  overflow: hidden;
+  border-radius: 3px;
+}
+
+.mt16 {
+  margin-top: 16px;
+}
+
+.mt8 {
+  margin-top: 8px;
+}

@@ -1,0 +1,62 @@
+{% extends "template.html" %}
+
+{% block title %}
+  <title>Create Group</title>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12" style="margin-top: 16px;">
+       {% if context.is_admin %}
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+          <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      {% endif %}
+    </div>
+    <div class="col-sm-12">
+      <form method="post" action="/groups/create">
+        <div class="form-group">
+          {% if group %}
+          <input type="text" hidden class="form-control" id="group" name="group" value="{{ group and group.key.urlsafe() or none }}">
+          {% endif %}
+        </div>
+        
+       
+        <div class="form-group">
+          <label for="group_name"><strong>Group Name</strong></label>
+          <input type="text" class="form-control" id="group_name" name="group_name" 
+            placeholder="Personal" value="{{group.name}}"> 
+        </div>
+        
+
+        <button type="submit" class="btn btn-primary">{{ group and 'Update Group' or 'Create Group'}}</button>
+        <button type="cancel" class="btn btn-light">Cancel</button>
+      </form>
+    </div>
+
+    <div class="col-sm-12" style="margin-top: 16px;">
+      <div class="row">
+        {% for group in groups %}
+        <div class="col-sm-4" style="margin-bottom: 15px;">
+          <div class="card">
+            <a href="/groups/{{ group.key.urlsafe() }}">
+              <div class="card-body" style="padding: 12px;">
+                <i class="fas fa-address-book"></i> {{ group.name }}
+                <button type="button" class="close">
+                  <a href="/groups/drop/{{ group.key.urlsafe() }}"><span aria-hidden="true">&times;</span></a>
+                </button>
+              </div>
+            </a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

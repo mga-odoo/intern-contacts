@@ -1,0 +1,60 @@
+{% extends "template.html" %}
+
+{% block title %}
+  <title>Contact App</title>
+{% endblock %}
+
+{% block body %}
+{% autoescape false %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 mt16">
+      <form action="/contacts/save" method="post" encrypt="multipart/form-data">
+
+        <div class="form-group" style="display: none">
+          <input type="text" hidden class="form-control" name="contact_edit" id="contact_edit" value="{{ contact and contact.key.urlsafe() }}">
+        </div>
+
+        <div class="form-group">
+          <label for="contact_group"><strong>Contact Group</strong></label>
+          <select class="form-control" name="contact_group" id="contact_group">
+            {% for group in groups %}
+              {% if contact and contact.group.urlsafe() == group.key.urlsafe() %}
+                <option selected value="{{ group.key.urlsafe() }}">{{ group.name }}</option>
+              {% else %}
+                <option value="{{ group.key.urlsafe() }}">{{ group.name }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+          <small class="form-text text-muted"><a href="/groups">Create new group</a></small>
+        </div>
+
+        <div class="form-group">
+          <label for="contact_name"><strong>Contact Name</strong></label>
+          <input type="text" class="form-control" name="contact_name" id="contact_name" placeholder="John Deo" value="{{ contact and contact.name }}">
+        </div>
+
+        <div class="form-group">
+          <label for="contact_email"><strong>Email Address</strong></label>
+          <input type="email" class="form-control" name="contact_email" id="contact_email" placeholder="johndeo@gmail.com" value="{{ contact and contact.email }}">
+        </div>
+
+        <div class="form-group">
+          <label for="contact_phone"><strong>Contact</strong></label>
+          <input type="text" class="form-control" name="contact_phone" id="contact_phone" placeholder="+1-(123)-456789" value="{{ contact and contact.phone }}">
+        </div>
+
+        <div class="form-group">
+          <label for="contact_note"><strong>Details</strong></label>
+          <textarea class="form-control" name="contact_note" id="contact_note" rows="3">{{ contact and contact.note }}</textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Create Contact</button>
+        <button type="cancel" class="btn btn-light">Cancel</button>
+      </form>
+    </div>
+
+  </div>
+</div>
+{% endautoescape %}
+{% endblock %}

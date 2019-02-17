@@ -1,0 +1,103 @@
+<html>
+  <head>
+    {% block title %}
+      <title>Contact App</title>
+    {% endblock %}
+
+    {% block head %}
+      <link type="text/css" rel="stylesheet" href="/src/css/bootstrap.css"/>
+      <link type="text/css" rel="stylesheet" href="/src/css/style.css"/>
+      <script src="/src/js/jquery-3.3.1.min.js"></script>
+      <script src="/src/js/bootstrap.min.js"></script>
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous"/>
+    {% endblock %}
+  </head>
+
+  <body>
+    {% block menu%}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container">
+        <a class="navbar-brand" href="/contacts"><i class="fas fa-id-card"></i></a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main_menu" aria-controls="main_menu" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="main_menu">
+          {% if not context.user %}
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item">
+                <a href="#" class="nav-link">Home</a>
+              </li>
+
+              <li class="nav-item">
+                <a href="#" class="nav-link">Features</a>
+              </li>
+
+              <li class="nav-item">
+                <a href="#" class="nav-link">Plans</a>
+              </li>
+
+              <li class="nav-item">
+                <a href="#" class="nav-link">Contact</a>
+              </li>
+            </ul>
+          {% endif %}
+
+          {% if context.user %}
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="menu_contact" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Contacts
+                </a>
+                <div class="dropdown-menu" aria-labelledby="menu_contact">
+                  <a class="dropdown-item" href="/contacts"><i class="far fa-address-card"></i> Contacts</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="/contacts/new"><i class="fas fa-plus"></i> Create</a>
+                </div>
+              </li>
+
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="menu_group" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Groups
+                </a>
+                <div class="dropdown-menu" aria-labelledby="menu_group">
+                  <a class="dropdown-item" href="/groups"><i class="fas fa-address-book"></i> Groups</a>
+                  <div class="dropdown-divider"></div>
+                  {% for group in groups %}
+                    <a class="dropdown-item" href="/contacts/group/{{ group.key.urlsafe() }}"><i class="far fa-address-book"></i> {{ group.name }}</a>
+                  {% endfor %}
+                </div>
+              </li>
+            </ul>
+          {% endif %}
+
+          <ul class="navbar-nav my-2 my-lg-0">
+            <li class="nav-item dropdown">
+              {% if context.user %}
+                <a class="nav-link dropdown-toggle" href="#" id="user_out" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+                  {{ context.user.email() }}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="user_out">
+                  <a class="dropdown-item" href="{{ context.url }}"><i class="fas fa-sign-out-alt"></i> Sign out</a>
+                </div>
+              {% elif not context.user %}
+                <a class="nav-link" href="{{ context.url }}"><i class="fas fa-sign-in-alt"></i> Login</a>
+              {% endif %}
+            </li>
+          </ul>
+        </div>
+        
+      </div>
+    </nav>
+    {% endblock %}
+
+    {% block body %}
+
+    {% endblock %}
+
+    {% block footer %}
+
+    {% endblock %}
+  </body>
+</html>
