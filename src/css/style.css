@@ -31,3 +31,7 @@ a:hover{
 .mt8 {
   margin-top: 8px;
 }
+
+.card {
+  border-radius: 0rem;
+}

@@ -15,13 +15,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from flask import Flask, render_template
+from flask import Flask
+from flask import render_template
+from flask import redirect
 
 from google.appengine.api import users
 from google.appengine.ext import ndb
 
-from controllers import group, contact
-from models import Group, Contact
+from controllers import group, contact, signup
+from models import Group, Contact, User
 
 from users import login
 
@@ -30,8 +32,16 @@ app.debug = True
 
 app.register_blueprint(contact.app)
 app.register_blueprint(group.app)
+app.register_blueprint(signup.app)
 
 @app.route('/')
-def index(group_key=None):
+def index():
     context = login()
+
+    if context.get('user') and not context.get('profile'):
+        return redirect('/signup')
+
     return render_template('index.html', context=context)
+
+
+

@@ -74,11 +74,21 @@
 
           <ul class="navbar-nav my-2 my-lg-0">
             <li class="nav-item dropdown">
+
               {% if context.user %}
                 <a class="nav-link dropdown-toggle" href="#" id="user_out" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
                   {{ context.user.email() }}
                 </a>
                 <div class="dropdown-menu" aria-labelledby="user_out">
+                  {% if context.profile %}
+                    <a class="dropdown-item" href="/profile/{{ context.profile and context.profile.key.urlsafe() }}"><i class="fas fa-user"></i> My Profile</a>
+                  {% endif %}
+
+                  {% if not context.profile %}
+                    <a class="dropdown-item" href="/signup"><i class="fas fa-user"></i> My Profile</a>
+                  {% endif %}
+
+                  <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="{{ context.url }}"><i class="fas fa-sign-out-alt"></i> Sign out</a>
                 </div>
               {% elif not context.user %}

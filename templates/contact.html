@@ -51,11 +51,17 @@
           <textarea class="form-control" name="contact_note" id="contact_note" rows="3">{{ contact.note }}</textarea>
         </div>
 
-        <button type="submit" class="btn btn-primary">Create Contact</button>
-        <button type="cancel" class="btn btn-light">Cancel</button>
+        <button type="submit" class="btn btn-primary">{{ contact and 'Update Contact' or 'Create Contact'}}</button>
+        <a href="/contacts">Cancel</a>
       </form>
     </div>
 
+    <div class="col-md-2 mt16">
+    </div>
+
+    <div class="col-md-4 mt16">
+      <h5>Create contact</h5>
+    </div>
   </div>
 </div>
 {% endautoescape %}
