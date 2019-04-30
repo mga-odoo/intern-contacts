@@ -9,22 +9,46 @@ from flask import render_template
 
 from google.appengine.ext import ndb
 from google.appengine.api import users
+from google.appengine.api.mail import EmailMessage
 
 from users import login
 from models import Group
 from models import User
 
+from flask import jsonify
+
 app = Blueprint('signup', __name__, template_folder='templates')
+
+def signup_email(email_to, subject, body):
+    message = EmailMessage()
+    message.sender = 'mantavyagajjar@gmail.com'
+    message.to = [email_to]
+    message.subject = subject
+    message._add_body('text/html', body)
+    message.check_initialized()
+    message.send()
 
 @app.route('/signup')
 @app.route('/profile/<profile>')
 def index(profile=None):
     context = login()
-
     if profile:
         profile = ndb.Key(urlsafe=profile).get()
-
     return render_template('signup.html', profile=profile, context=context)
+
+@app.route('/profile/notification/enable', methods=['POST'])
+def notification_enable():
+    context = login()
+    user = User()
+    result = False
+
+    if request.form.get('profile_edit'):
+        user = ndb.Key(urlsafe=request.form.get('profile_edit')).get()
+        user.fcmkey = request.form.get('currentToken')
+        user.put()
+        result = True
+
+    return jsonify({'result': result})
 
 @app.route('/signup/configure', methods=['POST'])
 def create():
@@ -45,6 +69,12 @@ def create():
     if user.name and user.email:
         user.put()
         email = render_template('signup-email.html', context=context)
-        user.signup_email(subject, email)
+        signup_email(user.email, subject, email)
 
-    return redirect('/')
+    data = {
+        'url': '/profile/%s' % (user.key.urlsafe()),
+        'result': True,
+        'profile_token': user.key.urlsafe()
+    }
+
+    return jsonify(data)

@@ -10,8 +10,8 @@
   <div class="row">
 
     <git class="col-12 mt16">
-      <div class="alert alert-info alert-dismissible fade show" role="alert">
-        <strong>Complete your profile!</strong><br/><hr/>Please fill all the infomration to complete your profile.
+      <div class="alert alert-info alert-dismissible fade show" role="alert" id="notification_bar" style="display: none;">
+        You can activate realtime desktop notification <a href="#" class="badge badge-primary"role="button" id="enable-notification">Click here to Enable Notification</a>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -19,7 +19,8 @@
     </git>
 
     <div class="col-md-6 mt16">
-      <form action="/signup/configure" method="post" encrypt="multipart/form-data">
+
+      <form action="/signup/configure" method="post" id="form" encrypt="multipart/form-data">
 
         <div class="form-group" style="display: none">
           {% if profile %}
@@ -46,8 +47,11 @@
           <label for="user_note"><strong>Details</strong></label>
           <textarea class="form-control" name="user_note" id="user_note" rows="3">{{ profile.note }}</textarea>
         </div>
-
-        <button type="submit" class="btn btn-primary">{{ profile and 'Update Profile' or 'Setup Profile'}}</button>
+        
+        <div class="alert alert-success" role="alert" id="message-success" style="display:none">
+          Profile has been updated successfuly! <a href="#" id="profile_url">Redirect to Profile</a>
+        </div>
+        <button class="btn btn-primary" id="save_button" type="button">{{ profile and 'Update Profile' or 'Setup Profile'}}</button>
         <a href="/contacts">Cancel</a>
       </form>
     </div>

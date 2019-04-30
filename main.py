@@ -18,6 +18,7 @@
 from flask import Flask
 from flask import render_template
 from flask import redirect
+from flask import send_from_directory
 
 from google.appengine.api import users
 from google.appengine.ext import ndb
@@ -27,7 +28,7 @@ from models import Group, Contact, User
 
 from users import login
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='')
 app.debug = True
 
 app.register_blueprint(contact.app)
@@ -43,5 +44,10 @@ def index():
 
     return render_template('index.html', context=context)
 
+@app.route('/manifest.json')
+def manifest():
+    return send_from_directory('', 'manifest.json')
 
-
+@app.route('/firebase-messaging-sw.js')
+def firebase_messaging():
+    return send_from_directory('', 'firebase-messaging-sw.js')

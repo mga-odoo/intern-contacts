@@ -1,0 +1,21 @@
+{
+  "short_name": "Contacts",
+  "name": "Contact Book",
+  "icons": [
+  {
+    "src": "/src/images/contact_icon_192.png",
+    "type": "image/png",
+    "sizes": "192x192"
+  },
+  {
+    "src": "/src/images/contact_icon_512.png",
+    "type": "image/png",
+    "sizes": "512x512"
+  }],
+  "start_url": "/",
+  "background_color": "#3367D6",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#3367D6",
+  "gcm_sender_id": "51827162095"
+}
