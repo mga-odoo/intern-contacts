@@ -80,7 +80,7 @@ $( document ).ready(function() {
 
 $("#enable-notification").click(function () {
   const messaging = firebase.messaging();
-  
+
   var subscription_token = localStorage.getItem("subscription_token");
   if(subscription_token) {
     new Notification ('Permission Granted', {
